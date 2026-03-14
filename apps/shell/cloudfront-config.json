@@ -1,0 +1,27 @@
+{
+  "Comment": "Configurar no CloudFront: Error Pages > Custom Error Response",
+  "CustomErrorResponses": [
+    {
+      "ErrorCode": 403,
+      "ResponsePagePath": "/index.html",
+      "ResponseCode": 200,
+      "ErrorCachingMinTTL": 0
+    },
+    {
+      "ErrorCode": 404,
+      "ResponsePagePath": "/index.html",
+      "ResponseCode": 200,
+      "ErrorCachingMinTTL": 0
+    }
+  ],
+  "CachePolicy": {
+    "remoteEntry.js": {
+      "CacheControl": "no-cache, no-store, must-revalidate",
+      "Comment": "Nunca cachear o remoteEntry — sempre buscar a versão mais recente"
+    },
+    "assets/*": {
+      "CacheControl": "public, max-age=31536000, immutable",
+      "Comment": "Assets com hash no nome podem ser cacheados para sempre"
+    }
+  }
+}

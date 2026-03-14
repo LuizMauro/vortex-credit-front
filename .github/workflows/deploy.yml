@@ -1,0 +1,125 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ─── Detecta quais apps/packages mudaram ───
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      shell: ${{ steps.filter.outputs.shell }}
+      core: ${{ steps.filter.outputs.core }}
+      carteira: ${{ steps.filter.outputs.carteira }}
+      packages: ${{ steps.filter.outputs.packages }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            packages:
+              - 'packages/**'
+            shell:
+              - 'apps/shell/**'
+            core:
+              - 'apps/core/**'
+            carteira:
+              - 'apps/carteira/**'
+
+  # ─── Lint + Type Check em tudo que mudou ───
+  quality:
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx turbo run lint type-check
+
+  # ─── Deploy Core ───
+  deploy-core:
+    runs-on: ubuntu-latest
+    needs: [detect-changes, quality]
+    if: |
+      github.event_name == 'push' &&
+      (needs.detect-changes.outputs.core == 'true' || needs.detect-changes.outputs.packages == 'true')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace=apps/core
+        env:
+          NODE_ENV: production
+      - name: Deploy Core to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_CORE }}
+          working-directory: apps/core
+          vercel-args: --prod
+
+  # ─── Deploy Carteira ───
+  deploy-carteira:
+    runs-on: ubuntu-latest
+    needs: [detect-changes, quality]
+    if: |
+      github.event_name == 'push' &&
+      (needs.detect-changes.outputs.carteira == 'true' || needs.detect-changes.outputs.packages == 'true')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace=apps/carteira
+        env:
+          NODE_ENV: production
+      - name: Deploy Carteira to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_CARTEIRA }}
+          working-directory: apps/carteira
+          vercel-args: --prod
+
+  # ─── Deploy Shell (sempre por último) ───
+  deploy-shell:
+    runs-on: ubuntu-latest
+    needs: [detect-changes, quality, deploy-core, deploy-carteira]
+    if: |
+      always() &&
+      github.event_name == 'push' &&
+      (needs.detect-changes.outputs.shell == 'true' || needs.detect-changes.outputs.packages == 'true')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace=apps/shell
+        env:
+          NODE_ENV: production
+          VITE_MFE_CORE_URL: ${{ vars.MFE_CORE_URL }}
+          VITE_MFE_CARTEIRA_URL: ${{ vars.MFE_CARTEIRA_URL }}
+      - name: Deploy Shell to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_SHELL }}
+          working-directory: apps/shell
+          vercel-args: --prod
