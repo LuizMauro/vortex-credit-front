@@ -2,18 +2,24 @@
   "buildCommand": "cd ../.. && npm run build --workspace=apps/core",
   "outputDirectory": "dist",
   "framework": null,
+  "rewrites": [
+    { "source": "/assets/(.*)", "destination": "/assets/$1" }
+  ],
+  "redirects": [
+    { "source": "/((?!assets/).*)", "destination": "https://vortex-credit-front.vercel.app/core", "statusCode": 308 }
+  ],
   "headers": [
     {
       "source": "/assets/remoteEntry.js",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
+        { "key": "Access-Control-Allow-Origin", "value": "https://vortex-credit-front.vercel.app" }
       ]
     },
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
+        { "key": "Access-Control-Allow-Origin", "value": "https://vortex-credit-front.vercel.app" }
       ]
     }
   ]
