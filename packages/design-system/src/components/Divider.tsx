@@ -1,13 +1,14 @@
 import React from 'react';
-import { tokens } from '../tokens';
+import { Separator } from 'tamagui';
 
-export const Divider: React.FC<{ style?: React.CSSProperties }> = ({ style }) => (
-  <hr
-    style={{
-      border: 'none',
-      borderTop: `1px solid ${tokens.colors.border}`,
-      margin: `${tokens.spacing.md} 0`,
-      ...style,
-    }}
+interface DividerProps {
+  style?: React.CSSProperties;
+}
+
+export const Divider: React.FC<DividerProps> = ({ style }) => (
+  <Separator
+    borderColor="$color.border"
+    marginVertical="$3"
+    style={style as any}
   />
 );

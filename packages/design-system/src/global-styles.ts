@@ -1,5 +1,5 @@
 export const globalStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
   *, *::before, *::after {
     margin: 0;
@@ -8,9 +8,9 @@ export const globalStyles = `
   }
 
   body {
-    font-family: var(--font-body);
-    background-color: var(--color-bg);
-    color: var(--color-primary);
+    font-family: 'Inter', sans-serif;
+    background-color: #F2F2F0;
+    color: #0A0A0A;
     -webkit-font-smoothing: antialiased;
   }
 

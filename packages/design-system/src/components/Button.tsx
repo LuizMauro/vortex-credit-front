@@ -1,56 +1,77 @@
 import React from 'react';
-import { tokens } from '../tokens';
+import { styled, Stack, Text, Spinner } from 'tamagui';
+
+const StyledButton = styled(Stack, {
+  tag: 'button',
+  role: 'button',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  paddingHorizontal: 20,
+  paddingVertical: 10,
+  borderRadius: '$2',
+  cursor: 'pointer',
+  borderWidth: 0,
+
+  variants: {
+    variant: {
+      primary: { backgroundColor: '$color.primary', color: '$color.white' },
+      secondary: {
+        backgroundColor: '$color.transparent',
+        borderWidth: 1.5,
+        borderColor: '$color.border',
+      },
+      ghost: { backgroundColor: '$color.transparent' },
+      danger: { backgroundColor: '$color.danger' },
+    },
+  } as const,
+
+  defaultVariants: { variant: 'primary' },
+});
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+const textColors: Record<ButtonVariant, string> = {
+  primary: '$color.white',
+  secondary: '$color.primary',
+  ghost: '$color.primary',
+  danger: '$color.white',
+};
+
+interface ButtonProps {
   variant?: ButtonVariant;
   loading?: boolean;
+  disabled?: boolean;
+  children?: React.ReactNode;
+  onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
+  style?: React.CSSProperties;
 }
-
-const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
-  primary: {
-    backgroundColor: tokens.colors.primary,
-    color: tokens.colors.white,
-  },
-  secondary: {
-    backgroundColor: 'transparent',
-    color: tokens.colors.primary,
-    border: `1.5px solid ${tokens.colors.border}`,
-  },
-  ghost: {
-    backgroundColor: 'transparent',
-    color: tokens.colors.primary,
-  },
-  danger: {
-    backgroundColor: tokens.colors.danger,
-    color: tokens.colors.white,
-  },
-};
 
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   loading,
   children,
-  style,
   disabled,
-  ...props
+  style,
+  onClick,
+  type,
 }) => (
-  <button
+  <StyledButton
+    variant={variant}
+    opacity={disabled || loading ? 0.5 : 1}
+    onPress={onClick}
     disabled={disabled || loading}
-    style={{
-      padding: '10px 20px',
-      borderRadius: tokens.radii.md,
-      fontFamily: tokens.fonts.body,
-      fontWeight: 600,
-      fontSize: '14px',
-      transition: 'opacity 0.15s',
-      opacity: disabled || loading ? 0.5 : 1,
-      ...variantStyles[variant],
-      ...style,
-    }}
-    {...props}
+    // @ts-ignore web props
+    type={type}
+    style={style as any}
   >
-    {loading ? 'Carregando...' : children}
-  </button>
+    {loading ? (
+      <Spinner size="small" color={textColors[variant]} />
+    ) : (
+      <Text color={textColors[variant]} fontSize={14} fontWeight="600" fontFamily="$body">
+        {children}
+      </Text>
+    )}
+  </StyledButton>
 );

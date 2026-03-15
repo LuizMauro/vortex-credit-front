@@ -1,5 +1,13 @@
 import React from 'react';
-import { tokens } from '../tokens';
+import { styled, YStack } from 'tamagui';
+
+const StyledCard = styled(YStack, {
+  backgroundColor: '$color.white',
+  borderRadius: '$3',
+  padding: '$4',
+  borderWidth: 1,
+  borderColor: '$color.border',
+});
 
 interface CardProps {
   children: React.ReactNode;
@@ -9,30 +17,13 @@ interface CardProps {
 }
 
 export const Card: React.FC<CardProps> = ({ children, hover, style, onClick }) => (
-  <div
-    onClick={onClick}
-    style={{
-      backgroundColor: tokens.colors.white,
-      borderRadius: tokens.radii.lg,
-      padding: tokens.spacing.lg,
-      border: `1px solid ${tokens.colors.border}`,
-      cursor: hover ? 'pointer' : 'default',
-      transition: hover ? 'box-shadow 0.2s, transform 0.2s' : undefined,
-      ...style,
-    }}
-    onMouseEnter={(e) => {
-      if (hover) {
-        e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
-        e.currentTarget.style.transform = 'translateY(-2px)';
-      }
-    }}
-    onMouseLeave={(e) => {
-      if (hover) {
-        e.currentTarget.style.boxShadow = 'none';
-        e.currentTarget.style.transform = 'none';
-      }
-    }}
+  <StyledCard
+    onPress={onClick}
+    cursor={hover ? 'pointer' : 'default'}
+    hoverStyle={hover ? { opacity: 0.95 } : undefined}
+    pressStyle={hover ? { opacity: 0.9 } : undefined}
+    style={style as any}
   >
     {children}
-  </div>
+  </StyledCard>
 );

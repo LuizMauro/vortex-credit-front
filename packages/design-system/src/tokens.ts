@@ -13,9 +13,9 @@ export const tokens = {
     border: '#E5E5E3',
   },
   fonts: {
-    display: "'Syne', sans-serif",
-    body: "'DM Sans', sans-serif",
-    mono: "'DM Mono', monospace",
+    display: "'Inter', sans-serif",
+    body: "'Inter', sans-serif",
+    mono: "'monospace'",
   },
   radii: {
     sm: '6px',
@@ -32,26 +32,3 @@ export const tokens = {
     '2xl': '48px',
   },
 } as const;
-
-export const cssVariables = `
-  :root {
-    --color-primary: ${tokens.colors.primary};
-    --color-bg: ${tokens.colors.background};
-    --color-accent: ${tokens.colors.accent};
-    --color-accent-light: ${tokens.colors.accentLight};
-    --color-white: ${tokens.colors.white};
-    --color-danger: ${tokens.colors.danger};
-    --color-warning: ${tokens.colors.warning};
-    --color-info: ${tokens.colors.info};
-    --color-success: ${tokens.colors.success};
-    --color-muted: ${tokens.colors.muted};
-    --color-border: ${tokens.colors.border};
-    --font-display: ${tokens.fonts.display};
-    --font-body: ${tokens.fonts.body};
-    --font-mono: ${tokens.fonts.mono};
-    --radius-sm: ${tokens.radii.sm};
-    --radius-md: ${tokens.radii.md};
-    --radius-lg: ${tokens.radii.lg};
-    --radius-full: ${tokens.radii.full};
-  }
-`;

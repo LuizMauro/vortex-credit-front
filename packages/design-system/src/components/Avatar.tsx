@@ -1,12 +1,7 @@
 import React from 'react';
-import { tokens } from '../tokens';
+import { Stack, Text } from 'tamagui';
 
 type AvatarSize = 'sm' | 'md' | 'lg';
-
-interface AvatarProps {
-  nome: string;
-  size?: AvatarSize;
-}
 
 const sizes: Record<AvatarSize, { wh: number; font: number }> = {
   sm: { wh: 32, font: 12 },
@@ -22,25 +17,25 @@ const getInitials = (nome: string) =>
     .join('')
     .toUpperCase();
 
+interface AvatarProps {
+  nome: string;
+  size?: AvatarSize;
+}
+
 export const Avatar: React.FC<AvatarProps> = ({ nome, size = 'md' }) => {
   const s = sizes[size];
   return (
-    <div
-      style={{
-        width: s.wh,
-        height: s.wh,
-        borderRadius: tokens.radii.full,
-        backgroundColor: tokens.colors.accent,
-        color: tokens.colors.white,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: s.font,
-        fontWeight: 700,
-        fontFamily: tokens.fonts.body,
-      }}
+    <Stack
+      width={s.wh}
+      height={s.wh}
+      borderRadius="$4"
+      backgroundColor="$color.accent"
+      alignItems="center"
+      justifyContent="center"
     >
-      {getInitials(nome)}
-    </div>
+      <Text color="$color.white" fontSize={s.font} fontWeight="700">
+        {getInitials(nome)}
+      </Text>
+    </Stack>
   );
 };

@@ -1,5 +1,7 @@
-export { tokens, cssVariables } from './tokens';
+export { tokens } from './tokens';
 export { globalStyles } from './global-styles';
+export { tamaguiConfig } from './tamagui.config';
+export { VortexProvider } from './VortexProvider';
 export { Button } from './components/Button';
 export { Card } from './components/Card';
 export { Input } from './components/Input';
