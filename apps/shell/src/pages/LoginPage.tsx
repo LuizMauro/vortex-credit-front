@@ -25,12 +25,14 @@ export const LoginPage: React.FC = () => {
         backgroundColor: tokens.colors.background,
       }}
     >
-      <Card style={{ width: 380, padding: 32 }}>
-        <Heading as="h2" style={{ marginBottom: 4 }}>Vortex Credit</Heading>
-        <Text size="sm" color={tokens.colors.muted} style={{ marginBottom: 24, display: 'block' }}>
-          Acesse sua conta
-        </Text>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <Card style={{ width: 400, padding: 36 }}>
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+          <Heading as="h2">Vortex Credit</Heading>
+          <Text size="sm" color={tokens.colors.muted} style={{ display: 'block', marginTop: 6 }}>
+            Acesse sua conta
+          </Text>
+        </div>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
           <Input
             label="E-mail"
             type="email"
@@ -45,7 +47,9 @@ export const LoginPage: React.FC = () => {
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
           />
-          <Button type="submit" style={{ marginTop: 8 }}>Entrar</Button>
+          <Button type="submit" fullWidth style={{ marginTop: 4, alignSelf: 'stretch' }}>
+            Entrar
+          </Button>
         </form>
       </Card>
     </div>

@@ -17,7 +17,15 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <nav style={{ display: 'flex', gap: 4, marginBottom: 24 }}>
+      <nav style={{
+        display: 'inline-flex',
+        gap: 4,
+        marginBottom: 28,
+        padding: 4,
+        backgroundColor: tokens.colors.white,
+        borderRadius: tokens.radii.full,
+        border: `1px solid ${tokens.colors.border}`,
+      }}>
         {tabs.map((tab) => {
           const fullPath = tab.path ? `${basePath}/${tab.path}` : basePath;
           const active = tab.path
@@ -28,13 +36,14 @@ const App: React.FC = () => {
               key={tab.path}
               to={fullPath}
               style={{
-                padding: '8px 16px',
+                padding: '8px 18px',
                 borderRadius: tokens.radii.full,
                 fontSize: '13px',
                 fontWeight: active ? 600 : 400,
                 backgroundColor: active ? tokens.colors.primary : 'transparent',
                 color: active ? tokens.colors.white : tokens.colors.muted,
                 textDecoration: 'none',
+                transition: 'all 0.15s ease',
               }}
             >
               {tab.label}

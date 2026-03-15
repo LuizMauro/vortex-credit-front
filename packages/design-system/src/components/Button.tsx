@@ -7,15 +7,21 @@ const StyledButton = styled(Stack, {
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'center',
+  gap: 8,
   paddingHorizontal: 20,
   paddingVertical: 10,
   borderRadius: '$2',
   cursor: 'pointer',
   borderWidth: 0,
+  alignSelf: 'flex-start',
+  transition: 'all 0.15s ease',
+
+  hoverStyle: { opacity: 0.85 },
+  pressStyle: { opacity: 0.7, scale: 0.98 },
 
   variants: {
     variant: {
-      primary: { backgroundColor: '$color.primary', color: '$color.white' },
+      primary: { backgroundColor: '$color.primary' },
       secondary: {
         backgroundColor: '$color.transparent',
         borderWidth: 1.5,
@@ -46,6 +52,7 @@ interface ButtonProps {
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   style?: React.CSSProperties;
+  fullWidth?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -56,12 +63,14 @@ export const Button: React.FC<ButtonProps> = ({
   style,
   onClick,
   type,
+  fullWidth,
 }) => (
   <StyledButton
     variant={variant}
     opacity={disabled || loading ? 0.5 : 1}
     onPress={onClick}
     disabled={disabled || loading}
+    alignSelf={fullWidth ? 'stretch' : 'flex-start'}
     // @ts-ignore web props
     type={type}
     style={style as any}

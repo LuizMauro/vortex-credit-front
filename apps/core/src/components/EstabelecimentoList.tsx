@@ -20,31 +20,37 @@ export const EstabelecimentoList: React.FC = () => {
 
   return (
     <div style={{ display: 'grid', gap: 12 }}>
-      {mockEstabelecimentos.map((est) => (
-        <Card
-          key={est.id}
-          hover
-          onClick={() => selecionar(est)}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            border: ativo?.id === est.id
-              ? `2px solid ${tokens.colors.accent}`
-              : `1px solid ${tokens.colors.border}`,
-          }}
-        >
-          <div>
-            <Text weight="semibold" size="lg">{est.nome}</Text>
-            <Text size="xs" color={tokens.colors.muted} style={{ display: 'block', marginTop: 2 }}>
-              {est.cnpj}
-            </Text>
-          </div>
-          <Badge variant={ativo?.id === est.id ? 'success' : 'default'}>
-            {ativo?.id === est.id ? 'Ativo' : tipoLabel[est.tipo]}
-          </Badge>
-        </Card>
-      ))}
+      {mockEstabelecimentos.map((est) => {
+        const isActive = ativo?.id === est.id;
+        return (
+          <Card
+            key={est.id}
+            hover
+            onClick={() => selecionar(est)}
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '16px 20px',
+              border: isActive
+                ? `2px solid ${tokens.colors.accent}`
+                : `1px solid ${tokens.colors.border}`,
+              backgroundColor: isActive ? tokens.colors.accentLight : tokens.colors.white,
+            }}
+          >
+            <div>
+              <Text weight="semibold" size="lg">{est.nome}</Text>
+              <Text size="xs" color={tokens.colors.muted} style={{ display: 'block', marginTop: 4 }}>
+                {est.cnpj}
+              </Text>
+            </div>
+            <Badge variant={isActive ? 'success' : 'default'}>
+              {isActive ? 'Ativo' : tipoLabel[est.tipo]}
+            </Badge>
+          </Card>
+        );
+      })}
     </div>
   );
 };

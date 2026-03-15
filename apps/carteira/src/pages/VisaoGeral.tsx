@@ -3,9 +3,9 @@ import { useAuthStore } from '@vortex/store';
 import { Heading, Text, Card, Badge, Divider, tokens } from '@vortex/design-system';
 
 const stats = [
-  { label: 'Saldo disponível', value: 'R$ 42.850,00', variant: 'success' as const },
-  { label: 'A receber (30d)', value: 'R$ 18.320,00', variant: 'info' as const },
-  { label: 'Antecipado', value: 'R$ 7.500,00', variant: 'warning' as const },
+  { label: 'Saldo disponível', value: 'R$ 42.850,00', variant: 'success' as const, tag: 'Disponível' },
+  { label: 'A receber (30d)', value: 'R$ 18.320,00', variant: 'info' as const, tag: 'Pendente' },
+  { label: 'Antecipado', value: 'R$ 7.500,00', variant: 'warning' as const, tag: 'Antecipado' },
 ];
 
 const movimentacoes = [
@@ -22,30 +22,39 @@ export const VisaoGeral: React.FC = () => {
   return (
     <div>
       <Heading as="h3">{est?.nome}</Heading>
-      <Text size="sm" color={tokens.colors.muted} style={{ display: 'block', marginBottom: 24 }}>
+      <Text size="sm" color={tokens.colors.muted} style={{ display: 'block', marginTop: 4, marginBottom: 28 }}>
         Visão geral da carteira
       </Text>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 36 }}>
         {stats.map((s) => (
-          <Card key={s.label}>
-            <Text size="xs" color={tokens.colors.muted}>{s.label}</Text>
-            <Heading as="h3" style={{ marginTop: 4 }}>{s.value}</Heading>
-            <Badge variant={s.variant} >{s.variant === 'success' ? 'Disponível' : s.variant === 'info' ? 'Pendente' : 'Antecipado'}</Badge>
+          <Card key={s.label} style={{ padding: '20px 24px' }}>
+            <Text size="xs" color={tokens.colors.muted} style={{ display: 'block', marginBottom: 8 }}>
+              {s.label}
+            </Text>
+            <Heading as="h3" style={{ marginBottom: 10 }}>{s.value}</Heading>
+            <Badge variant={s.variant}>{s.tag}</Badge>
           </Card>
         ))}
       </div>
 
-      <Text weight="semibold" size="lg" style={{ display: 'block', marginBottom: 12 }}>
+      <Text weight="semibold" size="lg" style={{ display: 'block', marginBottom: 14 }}>
         Últimas movimentações
       </Text>
-      <Card>
+      <Card style={{ padding: '8px 24px' }}>
         {movimentacoes.map((m, i) => (
           <React.Fragment key={i}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0' }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '14px 0',
+            }}>
               <div>
                 <Text weight="medium">{m.desc}</Text>
-                <Text size="xs" color={tokens.colors.muted} style={{ display: 'block' }}>{m.data}</Text>
+                <Text size="xs" color={tokens.colors.muted} style={{ display: 'block', marginTop: 2 }}>
+                  {m.data}
+                </Text>
               </div>
               <Text
                 weight="semibold"

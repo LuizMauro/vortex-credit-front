@@ -5,11 +5,11 @@ type BadgeVariant = 'default' | 'success' | 'warning' | 'danger' | 'info';
 
 const StyledBadge = styled(Text, {
   paddingHorizontal: 10,
-  paddingVertical: 2,
+  paddingVertical: 3,
   borderRadius: '$4',
   fontSize: 12,
   fontWeight: '600',
-  alignSelf: 'flex-start',
+  lineHeight: 16,
 
   variants: {
     variant: {

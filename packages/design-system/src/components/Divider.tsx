@@ -1,14 +1,16 @@
 import React from 'react';
-import { Separator } from 'tamagui';
+import { Stack } from 'tamagui';
 
 interface DividerProps {
   style?: React.CSSProperties;
 }
 
 export const Divider: React.FC<DividerProps> = ({ style }) => (
-  <Separator
-    borderColor="$color.border"
+  <Stack
+    height={1}
+    backgroundColor="$color.border"
     marginVertical="$3"
+    alignSelf="stretch"
     style={style as any}
   />
 );

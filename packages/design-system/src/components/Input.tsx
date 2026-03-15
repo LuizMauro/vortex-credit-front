@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input as TInput, Label, Text, YStack, XStack } from 'tamagui';
+import { Input as TInput, Text, YStack, XStack } from 'tamagui';
 
 interface InputProps {
   label?: string;
@@ -40,9 +40,9 @@ export const Input: React.FC<InputProps> = ({
   return (
     <YStack gap="$1">
       {label && (
-        <Label fontSize={13} fontWeight="500" color="$color.muted">
+        <Text fontSize={13} fontWeight="500" color="$color.muted" marginBottom={2}>
           {label}
-        </Label>
+        </Text>
       )}
       <XStack alignItems="center" position="relative">
         {icon && (
@@ -52,15 +52,18 @@ export const Input: React.FC<InputProps> = ({
         )}
         <TInput
           flex={1}
+          height={42}
           paddingHorizontal={icon ? 38 : 14}
-          paddingVertical={10}
           borderRadius="$2"
           borderWidth={1.5}
           borderColor={error ? '$color.danger' : '$color.border'}
           fontSize={14}
+          fontFamily="$body"
           placeholder={placeholder}
+          placeholderTextColor="$color.muted"
           value={String(value ?? '')}
           onChangeText={handleChangeText}
+          focusStyle={{ borderColor: '$color.accent' }}
           // @ts-ignore web-only props
           type={type}
           min={min}
@@ -69,10 +72,10 @@ export const Input: React.FC<InputProps> = ({
         />
       </XStack>
       {error && (
-        <Text fontSize={12} color="$color.danger">{error}</Text>
+        <Text fontSize={12} color="$color.danger" marginTop={2}>{error}</Text>
       )}
       {hint && !error && (
-        <Text fontSize={12} color="$color.muted">{hint}</Text>
+        <Text fontSize={12} color="$color.muted" marginTop={2}>{hint}</Text>
       )}
     </YStack>
   );
