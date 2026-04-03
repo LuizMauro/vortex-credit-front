@@ -64,11 +64,11 @@ export const Input: React.FC<InputProps> = ({
           value={String(value ?? '')}
           onChangeText={handleChangeText}
           focusStyle={{ borderColor: '$color.accent' }}
-          // @ts-ignore web-only props
+          // @ts-expect-error web-only props
           type={type}
           min={min}
           max={max}
-          style={style as any}
+          style={style as Record<string, unknown>}
         />
       </XStack>
       {error && (

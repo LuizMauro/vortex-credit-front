@@ -11,6 +11,6 @@ export const Divider: React.FC<DividerProps> = ({ style }) => (
     backgroundColor="$color.border"
     marginVertical="$3"
     alignSelf="stretch"
-    style={style as any}
+    style={style as Record<string, unknown>}
   />
 );

@@ -27,7 +27,7 @@ export const Text: React.FC<TextProps> = ({
     fontWeight={fontWeights[weight]}
     fontFamily="$body"
     color={color || undefined}
-    style={style as any}
+    style={style as Record<string, unknown>}
   >
     {children}
   </TText>
@@ -55,7 +55,7 @@ export const Heading: React.FC<HeadingProps> = ({ children, as: level = 'h2', st
   <StyledHeading
     tag={level}
     fontSize={headingSizes[level]}
-    style={style as any}
+    style={style as Record<string, unknown>}
   >
     {children}
   </StyledHeading>

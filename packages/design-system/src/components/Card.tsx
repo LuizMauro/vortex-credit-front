@@ -23,7 +23,7 @@ export const Card: React.FC<CardProps> = ({ children, hover, style, onClick }) =
     cursor={hover ? 'pointer' : 'default'}
     hoverStyle={hover ? { scale: 1.01, shadowColor: 'rgba(0,0,0,0.08)', shadowRadius: 20 } : undefined}
     pressStyle={hover ? { scale: 0.99 } : undefined}
-    style={style as any}
+    style={style as Record<string, unknown>}
   >
     {children}
   </StyledCard>

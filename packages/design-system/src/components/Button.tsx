@@ -71,9 +71,9 @@ export const Button: React.FC<ButtonProps> = ({
     onPress={onClick}
     disabled={disabled || loading}
     alignSelf={fullWidth ? 'stretch' : 'flex-start'}
-    // @ts-ignore web props
+    // @ts-expect-error web props
     type={type}
-    style={style as any}
+    style={style as Record<string, unknown>}
   >
     {loading ? (
       <Spinner size="small" color={textColors[variant]} />
