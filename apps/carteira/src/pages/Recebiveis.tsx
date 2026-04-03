@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heading, Text, Card, Badge, Button, Input, Divider, tokens } from '@vortex/design-system';
+import { Heading, Text, Card, Badge, Button, Input, Divider, tokens, useIsMobile } from '@vortex/design-system';
 
 const agenda = [
   { bandeira: 'Visa', valor: 8200, data: '2025-06-15' },
@@ -15,6 +15,7 @@ const fmt = (v: number) =>
 
 export const Recebiveis: React.FC = () => {
   const [percentual, setPercentual] = useState(100);
+  const isMobile = useIsMobile();
   const taxa = 1.8;
   const valorAntecipado = (totalAgenda * percentual) / 100;
   const desconto = valorAntecipado * (taxa / 100);
@@ -23,16 +24,16 @@ export const Recebiveis: React.FC = () => {
   return (
     <div>
       <Heading as="h3">Recebíveis</Heading>
-      <Text size="sm" color={tokens.colors.muted} style={{ display: 'block', marginTop: 4, marginBottom: 28 }}>
+      <Text size="sm" color={tokens.colors.muted} style={{ display: 'block', marginTop: 4, marginBottom: isMobile ? 20 : 28 }}>
         Agenda de recebíveis e simulador de antecipação
       </Text>
 
       <Text weight="semibold" size="lg" style={{ display: 'block', marginBottom: 14 }}>
         Agenda por bandeira
       </Text>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14, marginBottom: 36 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: 14, marginBottom: isMobile ? 24 : 36 }}>
         {agenda.map((a) => (
-          <Card key={a.bandeira} style={{ padding: '18px 22px' }}>
+          <Card key={a.bandeira} style={{ padding: isMobile ? '14px 16px' : '18px 22px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
               <Text weight="semibold">{a.bandeira}</Text>
               <Badge variant="info">{a.data}</Badge>
@@ -47,8 +48,8 @@ export const Recebiveis: React.FC = () => {
       <Text weight="semibold" size="lg" style={{ display: 'block', marginBottom: 14, marginTop: 8 }}>
         Simulador de antecipação
       </Text>
-      <Card style={{ padding: '28px 28px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+      <Card style={{ padding: isMobile ? '20px 16px' : '28px 28px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 24 : 32 }}>
           <div>
             <Input
               label="Percentual a antecipar"

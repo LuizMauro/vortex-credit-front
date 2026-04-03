@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heading, Text, Card, Badge, Button, Divider, tokens } from '@vortex/design-system';
+import { Heading, Text, Card, Badge, Button, Divider, tokens, useIsMobile } from '@vortex/design-system';
 
 type Tipo = 'todos' | 'credito' | 'debito';
 
@@ -18,6 +18,7 @@ const fmt = (v: number) =>
 
 export const Extrato: React.FC = () => {
   const [filtro, setFiltro] = useState<Tipo>('todos');
+  const isMobile = useIsMobile();
   const filtered = filtro === 'todos' ? transacoes : transacoes.filter((t) => t.tipo === filtro);
 
   return (
@@ -27,7 +28,7 @@ export const Extrato: React.FC = () => {
         Transações do estabelecimento
       </Text>
 
-      <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>
         {(['todos', 'credito', 'debito'] as Tipo[]).map((t) => (
           <Button
             key={t}
@@ -40,14 +41,16 @@ export const Extrato: React.FC = () => {
         ))}
       </div>
 
-      <Card style={{ padding: '8px 24px' }}>
+      <Card style={{ padding: isMobile ? '8px 16px' : '8px 24px' }}>
         {filtered.map((t, i) => (
           <React.Fragment key={t.id}>
             <div style={{
               display: 'flex',
               justifyContent: 'space-between',
-              alignItems: 'center',
+              alignItems: isMobile ? 'flex-start' : 'center',
+              flexDirection: isMobile ? 'column' : 'row',
               padding: '14px 0',
+              gap: isMobile ? 8 : 0,
             }}>
               <div>
                 <Text weight="medium">{t.desc}</Text>
@@ -55,7 +58,7 @@ export const Extrato: React.FC = () => {
                   {t.data}
                 </Text>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
+              <div style={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', alignItems: isMobile ? 'center' : 'flex-end', gap: 4 }}>
                 <Text weight="semibold" color={t.valor >= 0 ? tokens.colors.success : tokens.colors.danger}>
                   {t.valor >= 0 ? '+ ' : ''}{fmt(t.valor)}
                 </Text>

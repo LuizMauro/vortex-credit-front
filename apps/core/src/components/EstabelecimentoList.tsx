@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuthStore, type Estabelecimento } from '@vortex/store';
-import { Card, Text, Badge, tokens } from '@vortex/design-system';
+import { Card, Text, Badge, tokens, useIsMobile } from '@vortex/design-system';
 
 const mockEstabelecimentos: Estabelecimento[] = [
   { id: '1', nome: 'Posto Vortex Centro', tipo: 'posto', cnpj: '12.345.678/0001-01' },
@@ -17,6 +17,7 @@ const tipoLabel: Record<Estabelecimento['tipo'], string> = {
 export const EstabelecimentoList: React.FC = () => {
   const selecionar = useAuthStore((s) => s.selecionarEstabelecimento);
   const ativo = useAuthStore((s) => s.estabelecimentoAtivo);
+  const isMobile = useIsMobile();
 
   return (
     <div style={{ display: 'grid', gap: 12 }}>
@@ -29,10 +30,11 @@ export const EstabelecimentoList: React.FC = () => {
             onClick={() => selecionar(est)}
             style={{
               display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
+              flexDirection: isMobile ? 'column' : 'row',
+              alignItems: isMobile ? 'flex-start' : 'center',
               justifyContent: 'space-between',
-              padding: '16px 20px',
+              padding: isMobile ? '14px 16px' : '16px 20px',
+              gap: isMobile ? 10 : 0,
               border: isActive
                 ? `2px solid ${tokens.colors.accent}`
                 : `1px solid ${tokens.colors.border}`,
@@ -40,7 +42,7 @@ export const EstabelecimentoList: React.FC = () => {
             }}
           >
             <div>
-              <Text weight="semibold" size="lg">{est.nome}</Text>
+              <Text weight="semibold" size={isMobile ? 'md' : 'lg'}>{est.nome}</Text>
               <Text size="xs" color={tokens.colors.muted} style={{ display: 'block', marginTop: 4 }}>
                 {est.cnpj}
               </Text>

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@vortex/store';
-import { Button, Input, Heading, Text, Card, tokens } from '@vortex/design-system';
+import { Button, Input, Heading, Text, Card, tokens, useIsMobile } from '@vortex/design-system';
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const login = useAuthStore((s) => s.login);
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,10 +24,11 @@ export const LoginPage: React.FC = () => {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: tokens.colors.background,
+        padding: isMobile ? '20px 16px' : 0,
       }}
     >
-      <Card style={{ width: 400, padding: 36 }}>
-        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+      <Card style={{ width: '100%', maxWidth: 400, padding: isMobile ? 24 : 36 }}>
+        <div style={{ textAlign: 'center', marginBottom: isMobile ? 20 : 28 }}>
           <Heading as="h2">Vortex Credit</Heading>
           <Text size="sm" color={tokens.colors.muted} style={{ display: 'block', marginTop: 6 }}>
             Acesse sua conta

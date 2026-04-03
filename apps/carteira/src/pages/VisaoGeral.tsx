@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuthStore } from '@vortex/store';
-import { Heading, Text, Card, Badge, Divider, tokens } from '@vortex/design-system';
+import { Heading, Text, Card, Badge, Divider, tokens, useIsMobile } from '@vortex/design-system';
 
 const stats = [
   { label: 'Saldo disponível', value: 'R$ 42.850,00', variant: 'success' as const, tag: 'Disponível' },
@@ -18,17 +18,18 @@ const movimentacoes = [
 
 export const VisaoGeral: React.FC = () => {
   const est = useAuthStore((s) => s.estabelecimentoAtivo);
+  const isMobile = useIsMobile();
 
   return (
     <div>
       <Heading as="h3">{est?.nome}</Heading>
-      <Text size="sm" color={tokens.colors.muted} style={{ display: 'block', marginTop: 4, marginBottom: 28 }}>
+      <Text size="sm" color={tokens.colors.muted} style={{ display: 'block', marginTop: 4, marginBottom: isMobile ? 20 : 28 }}>
         Visão geral da carteira
       </Text>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 36 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 12 : 16, marginBottom: isMobile ? 24 : 36 }}>
         {stats.map((s) => (
-          <Card key={s.label} style={{ padding: '20px 24px' }}>
+          <Card key={s.label} style={{ padding: isMobile ? '16px 18px' : '20px 24px' }}>
             <Text size="xs" color={tokens.colors.muted} style={{ display: 'block', marginBottom: 8 }}>
               {s.label}
             </Text>
@@ -41,7 +42,7 @@ export const VisaoGeral: React.FC = () => {
       <Text weight="semibold" size="lg" style={{ display: 'block', marginBottom: 14 }}>
         Últimas movimentações
       </Text>
-      <Card style={{ padding: '8px 24px' }}>
+      <Card style={{ padding: isMobile ? '8px 16px' : '8px 24px' }}>
         {movimentacoes.map((m, i) => (
           <React.Fragment key={i}>
             <div style={{
@@ -49,8 +50,9 @@ export const VisaoGeral: React.FC = () => {
               justifyContent: 'space-between',
               alignItems: 'center',
               padding: '14px 0',
+              gap: 12,
             }}>
-              <div>
+              <div style={{ minWidth: 0, flex: 1 }}>
                 <Text weight="medium">{m.desc}</Text>
                 <Text size="xs" color={tokens.colors.muted} style={{ display: 'block', marginTop: 2 }}>
                   {m.data}
@@ -59,6 +61,7 @@ export const VisaoGeral: React.FC = () => {
               <Text
                 weight="semibold"
                 color={m.tipo === 'credito' ? tokens.colors.success : tokens.colors.danger}
+                style={{ whiteSpace: 'nowrap' }}
               >
                 {m.valor}
               </Text>

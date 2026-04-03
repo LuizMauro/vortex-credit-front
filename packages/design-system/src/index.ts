@@ -10,3 +10,4 @@ export { Avatar } from './components/Avatar';
 export { Text, Heading } from './components/Text';
 export { Spinner } from './components/Spinner';
 export { Divider } from './components/Divider';
+export { useMediaQuery, useIsMobile } from './useMediaQuery';
