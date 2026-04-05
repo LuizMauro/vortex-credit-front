@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export interface Usuario {
@@ -28,7 +28,7 @@ const STORE_KEY = '__vortex_auth_store__';
 
 const hasLocalStorage = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
 
-const storeCreator = (set: Parameters<Parameters<typeof create<AuthState>>[0]>[0]) => ({
+const storeCreator: StateCreator<AuthState> = (set) => ({
   usuario: null as AuthState['usuario'],
   estabelecimentoAtivo: null as AuthState['estabelecimentoAtivo'],
   isAuthenticated: false,

@@ -1,7 +1,7 @@
-import { View, ScrollView, StyleSheet } from "react-native";
-import { useRouter } from "expo-router";
-import { useAuthStore } from "@vortex/store";
-import { Heading, Text, Card, Avatar, Button, Divider, tokens } from "@vortex/design-system";
+import { ScrollView, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useAuthStore } from '@vortex/store';
+import { Heading, Text, Card, Avatar, Button, Divider, tokens } from '@vortex/design-system';
 
 export default function PerfilScreen() {
   const usuario = useAuthStore((s) => s.usuario);
@@ -11,21 +11,29 @@ export default function PerfilScreen() {
 
   const handleLogout = () => {
     logout();
-    router.replace("/(auth)/login");
+    router.replace('/(auth)/login');
   };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Card style={{ padding: 24, alignItems: "center" }}>
-        <Avatar nome={usuario?.nome || "U"} size="lg" />
-        <Heading as="h4" style={{ marginTop: 12 }}>{usuario?.nome}</Heading>
-        <Text size="sm" color={tokens.colors.muted}>{usuario?.email}</Text>
+      <Card style={{ padding: 24, alignItems: 'center' }}>
+        <Avatar nome={usuario?.nome || 'U'} size="lg" />
+        <Heading as="h4" style={{ marginTop: 12 }}>
+          {usuario?.nome}
+        </Heading>
+        <Text size="sm" color={tokens.colors.muted}>
+          {usuario?.email}
+        </Text>
       </Card>
 
       {estabelecimento && (
         <Card style={{ padding: 16, marginTop: 14 }}>
-          <Text size="xs" color={tokens.colors.muted}>Estabelecimento ativo</Text>
-          <Text weight="semibold" style={{ marginTop: 4 }}>{estabelecimento.nome}</Text>
+          <Text size="xs" color={tokens.colors.muted}>
+            Estabelecimento ativo
+          </Text>
+          <Text weight="semibold" style={{ marginTop: 4 }}>
+            {estabelecimento.nome}
+          </Text>
           <Text size="xs" color={tokens.colors.muted} style={{ marginTop: 2 }}>
             {estabelecimento.cnpj}
           </Text>

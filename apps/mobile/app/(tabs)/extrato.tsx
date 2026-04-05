@@ -31,7 +31,7 @@ export default function ExtratoScreen() {
             key={t}
             variant={filtro === t ? "primary" : "secondary"}
             onClick={() => setFiltro(t)}
-            style={{ paddingHorizontal: 14, paddingVertical: 6 }}
+            style={{ paddingInline: 14, paddingBlock: 6 }}
           >
             {t === "todos" ? "Todos" : t === "credito" ? "Crédito" : "Débito"}
           </Button>

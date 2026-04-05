@@ -68,7 +68,7 @@ export default function RecebiveisScreen() {
             <Text size="xs" color={tokens.colors.muted}>Desconto</Text>
             <Text weight="semibold" color={tokens.colors.danger}>- {fmt(desconto)}</Text>
           </View>
-          <Divider style={{ marginVertical: 4 }} />
+          <Divider style={{ marginBlock: 4 }} />
           <View>
             <Text size="xs" color={tokens.colors.muted}>Valor líquido</Text>
             <Heading as="h3" style={{ color: tokens.colors.accent }}>{fmt(liquido)}</Heading>
