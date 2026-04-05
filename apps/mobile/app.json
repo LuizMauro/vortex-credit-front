@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Vortex Credit",
+    "slug": "vortex-credit",
+    "version": "1.0.0",
+    "scheme": "vortex-credit",
+    "newArchEnabled": true,
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.vortex.credit"
+    },
+    "android": {
+      "package": "com.vortex.credit"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}

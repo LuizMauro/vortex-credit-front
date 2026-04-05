@@ -8,7 +8,8 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "turbo run dev --filter=!@vortex/mobile",
+    "dev:mobile": "cd apps/mobile && npx expo start",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "type-check": "turbo run type-check",
@@ -23,7 +24,8 @@
     "typescript": "^5.7.0",
     "typescript-eslint": "^8.58.0"
   },
-  "dependencies": {
-    "react-native-web": "^0.21.2"
+  "overrides": {
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
   }
 }

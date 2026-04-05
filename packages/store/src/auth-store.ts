@@ -26,21 +26,23 @@ export interface AuthState {
 
 const STORE_KEY = '__vortex_auth_store__';
 
+const hasLocalStorage = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+
+const storeCreator = (set: Parameters<Parameters<typeof create<AuthState>>[0]>[0]) => ({
+  usuario: null as AuthState['usuario'],
+  estabelecimentoAtivo: null as AuthState['estabelecimentoAtivo'],
+  isAuthenticated: false,
+  login: (usuario: Usuario) => set({ usuario, isAuthenticated: true }),
+  logout: () => set({ usuario: null, estabelecimentoAtivo: null, isAuthenticated: false }),
+  selecionarEstabelecimento: (est: Estabelecimento) => set({ estabelecimentoAtivo: est }),
+  limparEstabelecimento: () => set({ estabelecimentoAtivo: null }),
+});
+
 function createAuthStore() {
-  return create<AuthState>()(
-    persist(
-      (set) => ({
-        usuario: null,
-        estabelecimentoAtivo: null,
-        isAuthenticated: false,
-        login: (usuario) => set({ usuario, isAuthenticated: true }),
-        logout: () => set({ usuario: null, estabelecimentoAtivo: null, isAuthenticated: false }),
-        selecionarEstabelecimento: (est) => set({ estabelecimentoAtivo: est }),
-        limparEstabelecimento: () => set({ estabelecimentoAtivo: null }),
-      }),
-      { name: 'vortex-auth' },
-    ),
-  );
+  if (hasLocalStorage) {
+    return create<AuthState>()(persist(storeCreator, { name: 'vortex-auth' }));
+  }
+  return create<AuthState>()(storeCreator);
 }
 
 // Anchor on window so all MFEs share the exact same store instance
