@@ -60,6 +60,7 @@ jobs:
       - run: npm run build --workspace=apps/core
         env:
           NODE_ENV: production
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
       - name: Deploy Core to Vercel
         uses: amondnet/vercel-action@v25
         with:
@@ -116,6 +117,7 @@ jobs:
           NODE_ENV: production
           VITE_MFE_CORE_URL: ${{ vars.MFE_CORE_URL }}
           VITE_MFE_CARTEIRA_URL: ${{ vars.MFE_CARTEIRA_URL }}
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
       - name: Deploy Shell to Vercel
         uses: amondnet/vercel-action@v25
         with:
