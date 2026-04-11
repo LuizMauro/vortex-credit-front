@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, Navigate, NavLink, useLocation } from 'react-router-dom';
 import { tokens } from '@vortex/design-system';
 import { VisaoGeral } from './pages/VisaoGeral';
 import { Extrato } from './pages/Extrato';
 import { Recebiveis } from './pages/Recebiveis';
+
+import { useCarteiraStore } from './store/carteira-store'
 
 const tabs = [
   { label: 'Visão Geral', path: '' },
@@ -12,8 +14,12 @@ const tabs = [
 ];
 
 const App: React.FC = () => {
+  const { carregarResumo } = useCarteiraStore();
   const location = useLocation();
   const basePath = '/carteira';
+
+
+  useEffect(() => { carregarResumo(); }, []);
 
   return (
     <div>

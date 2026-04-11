@@ -6,14 +6,26 @@ import { Button, Input, Heading, Text, Card, tokens, useIsMobile } from '@vortex
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const login = useAuthStore((s) => s.login);
+  const loginAsync = useAuthStore((s) => s.loginAsync);
+  const loading = useAuthStore((s) => s.loading);
+  const error = useAuthStore((s) => s.error);
+  const clearError = useAuthStore((s) => s.clearError);
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    login({ id: '1', nome: 'Luiz Operador', email: email || 'luiz@vortex.com' });
-    navigate('/core');
+    clearError();
+
+    const trimmedEmail = email.trim().toLowerCase();
+    if (!trimmedEmail || !senha) return;
+
+    try {
+      await loginAsync(trimmedEmail, senha);
+      navigate('/core');
+    } catch {
+      // error is already set in the store
+    }
   };
 
   return (
@@ -41,6 +53,8 @@ export const LoginPage: React.FC = () => {
             placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
+            autoComplete="email"
           />
           <Input
             label="Senha"
@@ -48,9 +62,17 @@ export const LoginPage: React.FC = () => {
             placeholder="••••••••"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
+            required
+            autoComplete="current-password"
+            minLength={6}
           />
-          <Button type="submit" fullWidth style={{ marginTop: 4, alignSelf: 'stretch' }}>
-            Entrar
+          {error && (
+            <Text size="sm" color={tokens.colors.danger} style={{ textAlign: 'center' }}>
+              {error}
+            </Text>
+          )}
+          <Button type="submit" fullWidth disabled={loading} style={{ marginTop: 4, alignSelf: 'stretch' }}>
+            {loading ? 'Entrando...' : 'Entrar'}
           </Button>
         </form>
       </Card>
