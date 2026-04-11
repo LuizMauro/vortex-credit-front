@@ -88,6 +88,7 @@ jobs:
       - run: npm run build --workspace=apps/carteira
         env:
           NODE_ENV: production
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}

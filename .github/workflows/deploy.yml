@@ -86,6 +86,7 @@ jobs:
       - run: npm run build --workspace=apps/carteira
         env:
           NODE_ENV: production
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
       - name: Deploy Carteira to Vercel
         uses: amondnet/vercel-action@v25
         with:
