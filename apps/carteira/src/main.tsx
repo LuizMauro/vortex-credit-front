@@ -11,7 +11,6 @@ document.head.appendChild(style);
 
 // Mock data for standalone dev
 const state = useAuthStore.getState();
-state.login({ id: '1', nome: 'Dev User', email: 'dev@vortex.com' });
 state.selecionarEstabelecimento({
   id: '1', nome: 'Posto Vortex Centro', tipo: 'posto', cnpj: '12.345.678/0001-01',
 });

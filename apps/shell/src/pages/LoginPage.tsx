@@ -53,8 +53,6 @@ export const LoginPage: React.FC = () => {
             placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="email"
           />
           <Input
             label="Senha"
@@ -62,9 +60,6 @@ export const LoginPage: React.FC = () => {
             placeholder="••••••••"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
-            required
-            autoComplete="current-password"
-            minLength={6}
           />
           {error && (
             <Text size="sm" color={tokens.colors.danger} style={{ textAlign: 'center' }}>
